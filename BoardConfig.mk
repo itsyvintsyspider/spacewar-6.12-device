@@ -69,6 +69,9 @@ KERNEL_CLANG_VERSION := r563880c
 KERNEL_DEFCONFIG := phone1_defconfig
 KERNEL_FULL_LLVM := true
 
+# kernel/msm-5.4 (old qti_kernel_headers source) isn't part of this port; point at our 6.12 exported UAPI headers instead.
+TARGET_BOARD_KERNEL_HEADERS := device/qcom/lahaina-kernel/kernel-headers
+
 # OTA
 TARGET_OTA_ASSERT_DEVICE := Spacewar|spacewar
 
