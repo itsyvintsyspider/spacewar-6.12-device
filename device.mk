@@ -34,6 +34,18 @@ TARGET_BOARD_PLATFORM := lahaina
 TARGET_BOOTLOADER_BOARD_NAME := lahaina
 TARGET_KERNEL_VERSION := 6.12
 
+# lahaina defaults to the legacy wlan variant regardless of kernel version; force non-legacy to match 6.12.
+TARGET_WLAN_COMPONENT_VARIANT := wlan
+
+# qti-telephony.mk only enables librmnetctl's legacy API (adpl needs it) for kernel <= 5.10.
+SOONG_CONFIG_rmnetctl_old_rmnet_data := true
+
+# No 6.12 bucket in vendor/media; our blobs are 5.4-generation, so pin TARGET_MEDIA_DIR.
+TARGET_MEDIA_DIR := 5.4
+
+# Same for TARGET_DISP_DIR -- this is what the "harmless" vendor/display/6.12 find warning was masking.
+TARGET_DISP_DIR := 5.4
+
 # Authsecret
 PRODUCT_PACKAGES += \
     android.hardware.authsecret@1.0.vendor
