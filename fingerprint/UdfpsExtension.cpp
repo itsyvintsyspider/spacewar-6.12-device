@@ -6,6 +6,7 @@
 
 #include <compositionengine/UdfpsExtension.h>
 #include <display/drm/sde_drm.h>
+#include <display/drm/sde_drm_fod.h>
 
 uint32_t getUdfpsDimZOrder(uint32_t z) {
     return z;
