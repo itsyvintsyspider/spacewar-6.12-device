@@ -142,11 +142,11 @@ PRODUCT_PACKAGES += \
 
 # Manifests
 DEVICE_MANIFEST_FILE += \
-    $(DEVICE_PATH)/manifest_yupik.xml \
-    $(DEVICE_PATH)/manifest_phone1.xml
+    $(DEVICE_PATH)/configs/vintf/manifest_yupik.xml \
+    $(DEVICE_PATH)/configs/vintf/manifest_phone1.xml
 
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
-    $(DEVICE_PATH)/phone1_vendor_framework_compatibility_matrix.xml
+    $(DEVICE_PATH)/configs/vintf/phone1_vendor_framework_compatibility_matrix.xml
 
 # Memtrack
 PRODUCT_PACKAGES += \
