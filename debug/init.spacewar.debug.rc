@@ -1,0 +1,11 @@
+# Boot debugging: dumps logs to /metadata/spacewar-debug, survives a hang.
+
+on init
+    start spacewar-debuglog
+
+service spacewar-debuglog /system/bin/sh /system_ext/bin/spacewar-debuglog.sh
+    user root
+    group root log readproc
+    oneshot
+    disabled
+    seclabel u:r:su:s0

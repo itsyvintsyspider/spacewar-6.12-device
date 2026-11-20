@@ -1,0 +1,14 @@
+// Boot debugging: 6.12 port bring-up only, drop once boot is stable.
+
+prebuilt_etc {
+    name: "init.spacewar.debug.rc",
+    src: "init.spacewar.debug.rc",
+    sub_dir: "init",
+    system_ext_specific: true,
+}
+
+sh_binary {
+    name: "spacewar-debuglog.sh",
+    src: "spacewar-debuglog.sh",
+    system_ext_specific: true,
+}

@@ -74,6 +74,11 @@ PRODUCT_PACKAGES += \
 # Dalvik
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
 
+# Debug (6.12 bring-up boot logging, drop once boot is stable)
+PRODUCT_PACKAGES += \
+    init.spacewar.debug.rc \
+    spacewar-debuglog.sh
+
 # Display
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/displayconfig/display_id_4630946480328692354.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946480328692354.xml
