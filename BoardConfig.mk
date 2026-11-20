@@ -113,6 +113,12 @@ BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 0x06000000
 # PowerShare
 TARGET_POWERSHARE_NODE := /sys/class/qcom-battery/wireless_boost_en
 
+# Properties
+TARGET_SYSTEM_PROP := $(DEVICE_PATH)/properties/system.prop
+TARGET_PRODUCT_PROP := $(DEVICE_PATH)/properties/product.prop
+TARGET_ODM_PROP := $(DEVICE_PATH)/properties/odm.prop
+TARGET_VENDOR_PROP := $(DEVICE_PATH)/properties/vendor.prop
+
 # Radio
 ADD_RADIO_FILES := false
 
