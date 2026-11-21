@@ -284,4 +284,5 @@ PRODUCT_COPY_FILES += \
 
 # Proprietary Vendor
 $(call inherit-product, vendor/nothing/phone1/phone1-vendor.mk)
-$(call inherit-product, vendor/nothing/camera/nothing-camera.mk)
+# Nothing camera disabled for now
+# $(call inherit-product, vendor/nothing/camera/nothing-camera.mk)
