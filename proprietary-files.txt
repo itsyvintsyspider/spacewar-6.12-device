@@ -223,7 +223,6 @@ vendor/lib/hw/sound_trigger.primary.lahaina.so
 vendor/lib/rfsa/adsp/capi_v2_aptX_CLHDAD_Speech_Decoder.so
 vendor/lib/rfsa/adsp/capi_v2_aptX_CLHDADV_Encoder.so
 vendor/lib/soundfx/libasphere.so
--vendor/lib/soundfx/libdiraceffect-afm.so
 vendor/lib/soundfx/libqcbassboost.so
 vendor/lib/soundfx/libqcreverb.so
 vendor/lib/soundfx/libqcvirt.so
@@ -982,7 +981,7 @@ vendor/lib64/vendor.qti.hardware.radio.uim@1.1.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.qti.hardware.radio.uim@1.2.so;MODULE_SUFFIX=_vendor
 
 # QCRIL - from BSP
-vendor/lib64/libqcrilNr.so|ac7e1b2904811512b8fda8a985f3d1d1650245d9
+vendor/lib64/libqcrilNr.so
 
 # QMI
 vendor/bin/irsc_util
