@@ -62,7 +62,17 @@ BOARD_KERNEL_CMDLINE := \
     cgroup.memory=nokmem,nosocket \
     pcie_ports=compat \
     iptable_raw.raw_before_defrag=1 \
-    ip6table_raw.raw_before_defrag=1
+    ip6table_raw.raw_before_defrag=1 \
+    binder.impl=rust \
+    iommu.strict=1 \
+    deferred_probe_timeout=30 \
+    fw_devlink.sync_state=timeout \
+    clk_ignore_unused \
+    pd_ignore_unused
+# clk/pd_ignore_unused: 6.12 gates unused clocks/power domains before the
+# display driver takes the bootloader splash, which can kill the panel.
+# deferred_probe_timeout+fw_devlink.sync_state: let unconnected suppliers
+# sync_state so interconnect/DDR votes don't get stuck at boot-time max.
 BOARD_KERNEL_PAGESIZE    := 4096
 BOARD_RAMDISK_USE_LZ4 := true
 
