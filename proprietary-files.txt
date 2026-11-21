@@ -796,9 +796,9 @@ vendor/lib64/vendor.qti.ims.rcsuce@1.2.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.qti.imsrtpservice@3.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.qti.imsrtpservice@3.0-service-Impl.so
 
-# Telephony sourced from Pong (Spacewar's own is incompatible with Android 17); renamed + OVERRIDES to avoid collisions.
-system_ext/priv-app/QtiTelephony/QtiTelephony.apk:system_ext/priv-app/QtiTelephonyPhone1/QtiTelephonyPhone1.apk;OVERRIDES=QtiTelephony
-system_ext/priv-app/ims/ims.apk:system_ext/priv-app/imsPhone1/imsPhone1.apk;OVERRIDES=ims
+# Telephony (from Pong B4.1-261014-1615)
+system_ext/priv-app/QtiTelephony/QtiTelephony.apk:system_ext/priv-app/QtiTelephonyPhone1/QtiTelephonyPhone1.apk;OVERRIDES=QtiTelephony|163993bd7d811fd9f6f183f8a28d5e12f450c46e
+system_ext/priv-app/ims/ims.apk:system_ext/priv-app/imsPhone1/imsPhone1.apk;OVERRIDES=ims|2b14cb8b6b4dd0533d5649a216c0c6b0898d4e57
 
 # Keymaster
 vendor/bin/hw/android.hardware.authsecret@1.0-service-qti
