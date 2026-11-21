@@ -79,6 +79,18 @@ BOARD_RAMDISK_USE_LZ4 := true
 # kernel/msm-5.4 (old qti_kernel_headers source) isn't part of this port; point at our 6.12 exported UAPI headers instead.
 TARGET_BOARD_KERNEL_HEADERS := device/qcom/lahaina-kernel/kernel-headers
 
+# Kernel (prebuilt from the spacewar-6.12 branches)
+KERNEL_PREBUILT_DIR := device/qcom/lahaina-kernel
+BOARD_KERNEL_IMAGE_NAME := Image
+TARGET_PREBUILT_KERNEL := $(KERNEL_PREBUILT_DIR)/Image
+TARGET_PREBUILT_KERNEL_HEADERS := $(TARGET_BOARD_KERNEL_HEADERS)
+BOARD_PREBUILT_DTBIMAGE_DIR := $(KERNEL_PREBUILT_DIR)/dtbs
+BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PREBUILT_DIR)/dtbo.img
+BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(addprefix $(KERNEL_PREBUILT_DIR)/modules/,$(file < $(KERNEL_PREBUILT_DIR)/boot.modules.load))
+BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(file < $(KERNEL_PREBUILT_DIR)/boot.modules.load)
+BOARD_VENDOR_KERNEL_MODULES := $(filter-out $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES),$(wildcard $(KERNEL_PREBUILT_DIR)/modules/*.ko))
+BOARD_VENDOR_KERNEL_MODULES_LOAD := $(file < $(KERNEL_PREBUILT_DIR)/vendor.modules.load)
+
 # OTA
 TARGET_OTA_ASSERT_DEVICE := Spacewar|spacewar
 
@@ -135,7 +147,7 @@ TARGET_NO_RECOVERY := true
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/init/fstab.default
 
 # SELinux
-include vendor/aospa/sepolicy/libion/sepolicy.mk
+-include vendor/aospa/sepolicy/libion/sepolicy.mk
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 
