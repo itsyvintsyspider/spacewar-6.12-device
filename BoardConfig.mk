@@ -101,12 +101,12 @@ BOARD_VENDOR_KERNEL_MODULES_LOAD := $(file < $(KERNEL_PREBUILT_DIR)/vendor.modul
 TARGET_OTA_ASSERT_DEVICE := Spacewar|spacewar
 
 # Partitions - A/B
-AB_OTA_PARTITIONS := boot dtbo odm product system system_ext vendor vendor_boot vbmeta vbmeta_system
+AB_OTA_PARTITIONS := boot dtbo odm product system system_ext vendor vendor_dlkm vendor_boot vbmeta vbmeta_system
 AB_OTA_UPDATER := true
 
 # Partitions - Dynamic
 BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
-BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := product system system_ext odm vendor
+BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := product system system_ext odm vendor vendor_dlkm
 
 # Partitions - Filesystems
 BOARD_EXT4_SHARE_DUP_BLOCKS := true
