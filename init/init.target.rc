@@ -146,6 +146,8 @@ on post-fs-data
     chown cameraserver audio /data/vendor/camera/ois_caldata_wide_persist.bin
 
 on early-boot
+    # Keep Codec2 on ION (libion shim): 32-bit QTI codecs need it, dmabuf heaps give NO_MEMORY
+    setprop debug.c2.use_dmabufheaps 0
     start vendor.sensors
     verity_update_state
 
