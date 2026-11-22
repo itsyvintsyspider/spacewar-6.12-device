@@ -21,3 +21,16 @@ prebuilt_hidl_interfaces {
         "vendor.noth.hardware.sensor.sensor_extension@1.0::ISensorExtension",
     ],
 }
+
+// Headers NXP NFC HAL expects from securemsm; not in tree.
+cc_library_headers {
+    name: "mink_headers",
+    vendor: true,
+    host_supported: false,
+}
+
+cc_library_headers {
+    name: "peripheralstate_headers",
+    vendor: true,
+    host_supported: false,
+}
