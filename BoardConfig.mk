@@ -68,11 +68,13 @@ BOARD_KERNEL_CMDLINE := \
     deferred_probe_timeout=30 \
     fw_devlink.sync_state=timeout \
     clk_ignore_unused \
-    pd_ignore_unused
+    pd_ignore_unused \
+    irqchip.gicv3_pseudo_nmi=1
 # clk/pd_ignore_unused: 6.12 gates unused clocks/power domains before the
 # display driver takes the bootloader splash, which can kill the panel.
 # deferred_probe_timeout+fw_devlink.sync_state: let unconnected suppliers
 # sync_state so interconnect/DDR votes don't get stuck at boot-time max.
+# pseudo_nmi: lets the hard lockup detector catch hangs with IRQs masked.
 BOARD_KERNEL_PAGESIZE    := 4096
 BOARD_RAMDISK_USE_LZ4 := true
 
@@ -84,6 +86,10 @@ KERNEL_PREBUILT_DIR := device/qcom/lahaina-kernel
 BOARD_KERNEL_IMAGE_NAME := Image
 TARGET_PREBUILT_KERNEL := $(KERNEL_PREBUILT_DIR)/Image
 TARGET_PREBUILT_KERNEL_HEADERS := $(TARGET_BOARD_KERNEL_HEADERS)
+# Source dir only serves headers_install; the kernel itself stays prebuilt.
+TARGET_KERNEL_SOURCE := $(DEVICE_PATH)/kernel-src
+TARGET_KERNEL_CONFIG := lahaina_defconfig
+TARGET_FORCE_PREBUILT_KERNEL := true
 BOARD_PREBUILT_DTBIMAGE_DIR := $(KERNEL_PREBUILT_DIR)/dtbs
 BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PREBUILT_DIR)/dtbo.img
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(addprefix $(KERNEL_PREBUILT_DIR)/modules/,$(file < $(KERNEL_PREBUILT_DIR)/boot.modules.load))
