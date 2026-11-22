@@ -148,6 +148,12 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/init/fstab.default
 
 # SELinux
 -include vendor/aospa/sepolicy/libion/sepolicy.mk
+# Own copy of QC lahaina policy (stock one redeclares vendor_hal_perf2_service).
+# BOARD_SEPOLICY_DIRS is ordered after QC common, which declares the types.
+TARGET_SEPOLICY_DIR := phone1
+BOARD_SEPOLICY_DIRS += \
+    $(DEVICE_PATH)/sepolicy/qcom/generic \
+    $(DEVICE_PATH)/sepolicy/qcom/qva
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 
