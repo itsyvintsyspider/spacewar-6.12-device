@@ -13,10 +13,12 @@ from extract_utils.fixups_lib import (
 from extract_utils.main import ExtractUtils, ExtractUtilsModule
 
 namespace_imports = [
-    'vendor/qcom/common/vendor/adreno/r',
+    'vendor/qcom/common/vendor/adreno-r',
     'vendor/qcom/common/vendor/display/5.4',
     'vendor/qcom/common/vendor/gps-legacy',
-    'vendor/qcom/common/vendor/media/5.4',
+    'vendor/qcom/common/vendor/media-5.4',
+    'hardware/qcom-caf/sm8350/display',
+    'external/OpenCL-ICD-Loader',
 ]
 
 
