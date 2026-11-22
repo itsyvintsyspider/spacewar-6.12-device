@@ -141,6 +141,9 @@ PRODUCT_PACKAGES += \
 # ION
 $(call soong_config_set_bool,libion,legacy_impl,true)
 
+# No /dev/ion on 6.12; vendor libion maps the legacy API onto dma-buf heaps.
+PRODUCT_PACKAGES += libion_dmabuf
+
 # Keymaster
 PRODUCT_PACKAGES += \
    android.hardware.keymaster@4.1 \

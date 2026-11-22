@@ -1,0 +1,12 @@
+// Vendor libion for the 6.12 kernel (no /dev/ion); legacy API over dma-buf heaps.
+// Own filename: the in-tree libion also installs libion.so.
+cc_library_shared {
+    name: "libion_dmabuf",
+    vendor: true,
+    srcs: ["ion_dmabuf.c"],
+    header_libs: ["libion_headers"],
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+}
