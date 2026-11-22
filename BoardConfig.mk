@@ -139,7 +139,7 @@ TARGET_ODM_PROP := $(DEVICE_PATH)/properties/odm.prop
 TARGET_VENDOR_PROP := $(DEVICE_PATH)/properties/vendor.prop
 
 # Radio
-ADD_RADIO_FILES := false
+ADD_RADIO_FILES := true
 
 # Recovery
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
