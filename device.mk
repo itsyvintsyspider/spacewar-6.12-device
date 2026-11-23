@@ -138,11 +138,14 @@ PRODUCT_PACKAGES += \
     init.target.rc \
     ueventd.nothing.rc
 
-# ION
-$(call soong_config_set_bool,libion,legacy_impl,true)
-
 # No /dev/ion on 6.12; vendor libion maps the legacy API onto dma-buf heaps.
 PRODUCT_PACKAGES += libion_dmabuf
+
+# Stock adreno-r libgsl with NEEDED libion.so repointed to libion_dmabuf.so;
+# listed first so these win over the adreno-r copies of the same destination.
+PRODUCT_COPY_FILES += \
+    device/nothing/phone1/gsl/lib/libgsl.so:$(TARGET_COPY_OUT_VENDOR)/lib/libgsl.so \
+    device/nothing/phone1/gsl/lib64/libgsl.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libgsl.so
 
 # Keymaster
 PRODUCT_PACKAGES += \
