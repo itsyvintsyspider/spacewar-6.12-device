@@ -1,11 +1,23 @@
 # The 5.4 vendor allocates through libion; on 6.12 there is no /dev/ion and
-# libion opens the qcom DMA-BUF heaps instead.
-allow { vendor_adsprpcd vendor_audioadsprpcd vendor_cdsprpcd vendor_sensors } {
-    vendor_dmabuf_system_heap_device
-    vendor_dmabuf_system_uncached_heap_device
-}:chr_file r_file_perms;
+# libion opens the qcom DMA-BUF heaps instead. Access mirrors QC sm8450 policy.
+allow { vendor_adsprpcd vendor_audioadsprpcd vendor_cdsprpcd vendor_sensors hal_sensors_default } { vendor_dmabuf_system_heap_device vendor_dmabuf_system_uncached_heap_device }:chr_file r_file_perms;
 
-allow hal_graphics_allocator_default {
-    vendor_dmabuf_system_heap_device
-    vendor_dmabuf_system_uncached_heap_device
-}:chr_file r_file_perms;
+allow hal_graphics_allocator_default { vendor_dmabuf_system_heap_device vendor_dmabuf_system_uncached_heap_device vendor_dmabuf_secure_pixel vendor_dmabuf_secure_non_pixel vendor_dmabuf_secure_cdsp_heap_device vendor_dmabuf_secure_display_heap_device vendor_dmabuf_display_heap_device }:chr_file r_file_perms;
+
+allow hal_graphics_composer_default { vendor_dmabuf_system_heap_device vendor_dmabuf_system_uncached_heap_device }:chr_file r_file_perms;
+
+allow hal_camera_default { vendor_dmabuf_system_heap_device vendor_dmabuf_system_uncached_heap_device vendor_dmabuf_user_contig_heap_device vendor_dmabuf_qseecom_heap_device vendor_dmabuf_qseecom_ta_heap_device vendor_dmabuf_display_heap_device }:chr_file r_file_perms;
+
+allow mediacodec { vendor_dmabuf_system_heap_device vendor_dmabuf_system_uncached_heap_device vendor_dmabuf_display_heap_device vendor_dmabuf_secure_pixel vendor_dmabuf_secure_non_pixel }:chr_file r_file_perms;
+
+allow vendor_hal_drm_widevine { vendor_dmabuf_system_heap_device vendor_dmabuf_qseecom_heap_device vendor_dmabuf_qseecom_ta_heap_device }:chr_file r_file_perms;
+
+allow { vendor_hal_identity_qti hal_keymaster_default hal_fingerprint_default } { vendor_dmabuf_qseecom_heap_device vendor_dmabuf_qseecom_ta_heap_device }:chr_file r_file_perms;
+
+allow vendor_hal_trustedui_qti { vendor_dmabuf_system_heap_device vendor_dmabuf_display_heap_device vendor_dmabuf_secure_display_heap_device }:chr_file r_file_perms;
+
+allow vendor_feature_enabler_client { vendor_dmabuf_qseecom_heap_device vendor_dmabuf_qseecom_ta_heap_device vendor_dmabuf_user_contig_heap_device }:chr_file r_file_perms;
+
+allow hal_audio_default { vendor_dmabuf_system_heap_device vendor_dmabuf_system_uncached_heap_device vendor_dmabuf_audio_ml_heap_device }:chr_file r_file_perms;
+
+allow { appdomain -isolated_app_all -coredomain } { vendor_dmabuf_system_heap_device }:chr_file r_file_perms;
