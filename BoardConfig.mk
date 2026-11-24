@@ -69,12 +69,14 @@ BOARD_KERNEL_CMDLINE := \
     fw_devlink.sync_state=timeout \
     clk_ignore_unused \
     pd_ignore_unused \
-    irqchip.gicv3_pseudo_nmi=1
+    irqchip.gicv3_pseudo_nmi=1 \
+    panic=5
 # clk/pd_ignore_unused: 6.12 gates unused clocks/power domains before the
 # display driver takes the bootloader splash, which can kill the panel.
 # deferred_probe_timeout+fw_devlink.sync_state: let unconnected suppliers
 # sync_state so interconnect/DDR votes don't get stuck at boot-time max.
 # pseudo_nmi: lets the hard lockup detector catch hangs with IRQs masked.
+# panic=5: reboot 5s after a panic instead of the built-in 30s.
 BOARD_KERNEL_PAGESIZE    := 4096
 BOARD_RAMDISK_USE_LZ4 := true
 
