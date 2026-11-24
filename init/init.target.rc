@@ -31,8 +31,6 @@
 import /vendor/etc/init/hw/init.qti.kernel.rc
 
 on early-init
-    # 6.12 vendor modules live in vendor_dlkm, in modules.load order
-    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -d /vendor_dlkm/lib/modules --all=modules.load
     write /proc/sys/kernel/sched_boost 1
     wait /sys/devices/soc0/soc_id
 
