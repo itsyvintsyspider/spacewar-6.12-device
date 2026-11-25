@@ -72,6 +72,7 @@ BOARD_KERNEL_CMDLINE := \
     irqchip.gicv3_pseudo_nmi=1 \
     panic=5 \
     printk.devkmsg=on \
+    androidboot.selinux=permissive \
     dwc3.dyndbg=+p \
     dwc3_msm.dyndbg=+p
 # clk/pd_ignore_unused: 6.12 gates unused clocks/power domains before the
@@ -80,6 +81,7 @@ BOARD_KERNEL_CMDLINE := \
 # sync_state so interconnect/DDR votes don't get stuck at boot-time max.
 # pseudo_nmi: lets the hard lockup detector catch hangs with IRQs masked.
 # panic=5: reboot 5s after a panic instead of the built-in 30s.
+# selinux=permissive: bring-up only, collect all avc gaps in one boot.
 # devkmsg=on: don't ratelimit userspace (init) kmsg while bringing the ROM up.
 # dyndbg: log dwc3 probe/defer reasons to pstore while USB bring-up is open.
 BOARD_KERNEL_PAGESIZE    := 4096

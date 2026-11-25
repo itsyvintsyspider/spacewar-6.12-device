@@ -5,6 +5,7 @@ cc_library_shared {
     vendor: true,
     srcs: ["ion_dmabuf.c"],
     header_libs: ["libion_headers"],
+    shared_libs: ["liblog"],
     cflags: [
         "-Wall",
         "-Werror",

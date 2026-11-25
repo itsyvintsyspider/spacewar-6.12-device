@@ -1,5 +1,6 @@
 // Legacy libion API on top of dma-buf heaps; 6.12 has no /dev/ion.
 // Heap selection follows suvojeet-sengupta's redwood libion patch.
+#include <android/log.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stddef.h>
@@ -79,6 +80,17 @@ int ion_open() { return open("/dev/null", O_RDONLY | O_CLOEXEC); }
 
 int ion_close(int fd) { return close(fd); }
 
+// Bring-up: report failed heap allocs to the kernel log.
+static void kmsg_log(const char* heap, size_t len, int err) {
+    char msg[96];
+    int n = snprintf(msg, sizeof(msg), "<4>ion_dmabuf: pid %d heap %s len %zu err %d\n", getpid(), heap, len, err);
+    __android_log_print(ANDROID_LOG_ERROR, "ion_dmabuf", "pid %d heap %s len %zu err %d", getpid(), heap, len, err);
+    int fd = open("/dev/kmsg", O_WRONLY | O_CLOEXEC);
+    if (fd < 0) return;
+    if (write(fd, msg, n) < 0) {}
+    close(fd);
+}
+
 int ion_alloc_fd(int fd __attribute__((unused)), size_t len, size_t align __attribute__((unused)),
                  unsigned int heap_mask, unsigned int flags, int* handle_fd) {
     if (!handle_fd) return -EINVAL;
@@ -86,7 +98,10 @@ int ion_alloc_fd(int fd __attribute__((unused)), size_t len, size_t align __attr
     // Not every client may open every heap or the kernel may lack it, so end on the system heap.
     const char* const names[] = {heap_for(heap_mask, flags), "qcom,system", "system"};
     int buf = -ENODEV;
-    for (size_t i = 0; i < 3 && buf < 0; i++) buf = heap_alloc(names[i], len);
+    for (size_t i = 0; i < 3 && buf < 0; i++) {
+        buf = heap_alloc(names[i], len);
+        if (buf < 0) kmsg_log(names[i], len, buf);  // bring-up
+    }
     if (buf < 0) return buf;
 
     *handle_fd = buf;

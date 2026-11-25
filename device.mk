@@ -44,8 +44,10 @@ SOONG_CONFIG_rmnetctl_old_rmnet_data := true
 # No 6.12 bucket in vendor/media; our blobs are 5.4-generation, so pin TARGET_MEDIA_DIR.
 TARGET_MEDIA_DIR := 5.4
 
-# Same for TARGET_DISP_DIR -- this is what the "harmless" vendor/display/6.12 find warning was masking.
-TARGET_DISP_DIR := 5.4
+# qti-display.mk forces TARGET_DISP_DIR to the kernel version, so pull the 5.4 display blobs in directly.
+$(call inherit-product, vendor/qcom/common/vendor/display/5.4/display-vendor.mk)
+PRODUCT_COPY_FILES += \
+    device/qcom/common/vendor/display/5.4/advanced_sf_offsets.xml:$(TARGET_COPY_OUT_VENDOR)/etc/display/advanced_sf_offsets.xml
 
 # Authsecret
 PRODUCT_PACKAGES += \
