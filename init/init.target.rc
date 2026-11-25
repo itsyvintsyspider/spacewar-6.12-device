@@ -29,12 +29,16 @@
 #
 
 import /vendor/etc/init/hw/init.qti.kernel.rc
+# RIL starter: qti-init.mk only packages it for kernels up to 5.15
+import /vendor/etc/init/hw/init.qcom.legacy_qcrild.rc
 
 on early-init
     write /proc/sys/kernel/sched_boost 1
     wait /sys/devices/soc0/soc_id
 
 on init
+    # Keep avc and pr_info in the pstore console (qti rc lowers it to 4)
+    write /proc/sys/kernel/printk "7 6 1 7"
     # Scheduler uclamp
     mkdir /dev/cpuctl/foreground
     mkdir /dev/cpuctl/background
@@ -146,6 +150,14 @@ on post-fs-data
 on early-boot
     # Keep Codec2 on ION (libion shim): 32-bit QTI codecs need it, dmabuf heaps give NO_MEMORY
     setprop debug.c2.use_dmabufheaps 0
+    # 6.12 adsp-loader only boots the ADSP on this write
+    write /sys/kernel/boot_adsp/boot 1
+    # 6.12 fastrpc names its nodes fastrpc-<dom>[-secure]; vendor libadsprpc still opens the 5.4 names
+    symlink /dev/fastrpc-adsp /dev/adsprpc-smd
+    symlink /dev/fastrpc-adsp-secure /dev/adsprpc-smd-secure
+    symlink /dev/fastrpc-cdsp /dev/cdsprpc-smd
+    symlink /dev/fastrpc-cdsp-secure /dev/cdsprpc-smd-secure
+    start spacewar-wpss
     start vendor.sensors
     verity_update_state
 
@@ -468,3 +480,33 @@ on property:sys.touch.fod_en.enable=1
     write sys/bus/spi/devices/spi0.0/fts_gesture_mode 3
 on property:sys.touch.fod_en.enable=0
     write sys/bus/spi/devices/spi0.0/fts_gesture_mode 4
+
+# Bring-up: forward qsee/keymaster logcat to kmsg so pstore keeps it.
+service dbg_logcat /system/bin/sh -c "logcat -b all -v brief | grep --line-buffered -iE 'qsee|keymaster|gatekeeper|keystore|dmabuf|KeymasterUtils' > /dev/kmsg"
+    user root
+    group root log
+    disabled
+    oneshot
+    seclabel u:r:su:s0
+
+on init
+    start dbg_logcat
+
+# icnss2 loads late; wait for its sysfs node, then boot the WPSS (Wi-Fi)
+service spacewar-wpss /system/bin/sh -c "while [ ! -e /sys/kernel/icnss/wpss_boot ]; do sleep 1; done; echo 1 > /sys/kernel/icnss/wpss_boot"
+    user root
+    oneshot
+    disabled
+    seclabel u:r:su:s0
+
+# 6.12 modem bring-up: keep the EFS partitions read-only (backed up) until rmt_storage is proven
+on post-fs
+    exec - root root -- /system/bin/blockdev --setro /dev/block/bootdevice/by-name/modemst1
+    exec - root root -- /system/bin/blockdev --setro /dev/block/bootdevice/by-name/modemst2
+    exec - root root -- /system/bin/blockdev --setro /dev/block/bootdevice/by-name/fsg
+    exec - root root -- /system/bin/blockdev --setro /dev/block/bootdevice/by-name/fsc
+
+# rfkill stays signed and isn't in modules.dep, so cfg80211 fails in vendor.modprobe; retry after it
+on property:init.svc.vendor.modprobe=stopped
+    exec - root root -- /system/bin/insmod /vendor_dlkm/lib/modules/rfkill.ko
+    exec - root root -- /vendor/bin/modprobe -a -d /vendor/lib/modules cfg80211 mac80211 wlan

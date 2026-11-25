@@ -80,6 +80,10 @@ PRODUCT_PACKAGES += \
     init.spacewar.debug.rc \
     spacewar-debuglog.sh
 
+# GKI rfkill must stay signed to export its protected symbols; the module install strips it
+PRODUCT_COPY_FILES += \
+    device/qcom/lahaina-kernel/signed/rfkill.ko:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/rfkill.ko
+
 # Display
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/displayconfig/display_id_4630946480328692354.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946480328692354.xml
@@ -293,3 +297,7 @@ PRODUCT_COPY_FILES += \
 $(call inherit-product, vendor/nothing/phone1/phone1-vendor.mk)
 # Nothing camera disabled for now
 # $(call inherit-product, vendor/nothing/camera/nothing-camera.mk)
+
+# Starts qcrild; the QCOM common makefile skips it for TARGET_KERNEL_VERSION 6.12
+PRODUCT_PACKAGES += \
+    init.qcom.legacy_qcrild.rc
