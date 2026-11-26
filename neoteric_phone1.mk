@@ -1,3 +1,6 @@
+# Non-user builds default to the debug ART (libartd); runtime_libart.mk reads this on inherit, before neoteric's art.mk
+PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
+
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, device/nothing/phone1/device.mk)
