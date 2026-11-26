@@ -36,6 +36,9 @@ on early-init
     write /proc/sys/kernel/sched_boost 1
     wait /sys/devices/soc0/soc_id
 
+    # 6.12 has no uevent firmware fallback; the camera ICP firmware is only found via this path
+    write /sys/module/firmware_class/parameters/path /vendor/firmware
+
 on init
     # Keep avc and pr_info in the pstore console (qti rc lowers it to 4)
     write /proc/sys/kernel/printk "7 6 1 7"
