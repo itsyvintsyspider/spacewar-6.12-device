@@ -11,6 +11,18 @@ BASE=/metadata/spacewar-debug
 
 mkdir -p $BASE
 # Only the current boot fits in /metadata; pull the logs before rebooting.
+# Keep the last boot's kernel and crash logs (~1.3 MB) so a boot loop leaves evidence.
+# A boot that still has tipc_try crashed with tipc loaded: keep its logs for good.
+if [ -d $BASE/boot0 ]; then
+    if [ -e $BASE/tipc_try ] && [ ! -e $BASE/tipc_bad ]; then
+        rm -rf $BASE/crash-tipc
+        mkdir -p $BASE/crash-tipc
+        cp $BASE/boot0/dmesg.txt $BASE/boot0/kmsg.txt $BASE/boot0/crash.txt $BASE/crash-tipc/ 2>/dev/null
+    fi
+    rm -rf $BASE/prev
+    mkdir -p $BASE/prev
+    mv $BASE/boot0/dmesg.txt $BASE/boot0/kmsg.txt $BASE/boot0/crash.txt $BASE/prev/ 2>/dev/null
+fi
 rm -rf $BASE/boot*
 DIR=$BASE/boot0
 mkdir -p $DIR

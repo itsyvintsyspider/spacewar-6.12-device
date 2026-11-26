@@ -9,3 +9,16 @@ service spacewar-debuglog /system/bin/sh /system_ext/bin/spacewar-debuglog.sh
     oneshot
     disabled
     seclabel u:r:su:s0
+
+# tipc for netmgrd, guarded by a boot-loop latch (see the script)
+on property:init.svc.vendor.modprobe=stopped
+    exec - root root -- /system/bin/sh /system_ext/bin/spacewar-tipc.sh
+
+on property:sys.boot_completed=1
+    start spacewar-tipc-ok
+
+service spacewar-tipc-ok /system/bin/sh -c "sleep 150; rm -f /metadata/spacewar-debug/tipc_try; sync"
+    user root
+    oneshot
+    disabled
+    seclabel u:r:su:s0

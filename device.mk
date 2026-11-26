@@ -80,11 +80,13 @@ $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
 # Debug (6.12 bring-up boot logging, drop once boot is stable)
 PRODUCT_PACKAGES += \
     init.spacewar.debug.rc \
-    spacewar-debuglog.sh
+    spacewar-debuglog.sh \
+    spacewar-tipc.sh
 
 # GKI rfkill must stay signed to export its protected symbols; the module install strips it
 PRODUCT_COPY_FILES += \
-    device/qcom/lahaina-kernel/signed/rfkill.ko:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/rfkill.ko
+    device/qcom/lahaina-kernel/signed/rfkill.ko:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/rfkill.ko \
+    device/qcom/lahaina-kernel/signed/tipc.ko:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/tipc.ko
 
 # Display
 PRODUCT_COPY_FILES += \

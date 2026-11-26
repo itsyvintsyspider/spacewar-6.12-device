@@ -12,3 +12,9 @@ sh_binary {
     src: "spacewar-debuglog.sh",
     system_ext_specific: true,
 }
+
+sh_binary {
+    name: "spacewar-tipc.sh",
+    src: "spacewar-tipc.sh",
+    system_ext_specific: true,
+}
